@@ -1,9 +1,9 @@
 package com.project;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Properties;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -72,6 +72,22 @@ public class BaseTest
 	{
 		//driver.get(p.getProperty(url));
 		driver.navigate().to(p.getProperty(url));
+	}
+	
+	
+	public static void elementClick(String locator) 
+	{
+		driver.findElement(By.xpath(locator)).click();
+	}
+
+	public static void typeValue(String locator, String value) 
+	{
+		driver.findElement(By.id(locator)).sendKeys(value);
+	}
+
+	public static void selectoption(String locator, String option)
+	{
+		driver.findElement(By.id(locator)).sendKeys(option);
 	}
 
 }
