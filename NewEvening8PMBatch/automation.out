@@ -1,0 +1,12 @@
+initialising the properties files....
+Opened the browser :- chrome
+Navigated to url :- https://www.amazon.in
+Selected the item :-Books by using the locator :searchDropdownBox
+Entered the text value :- Harry Potter by using the locator :- twotabsearchtextbox
+Clicked on element by using the locator :- //div[contains(@class,'nav-search-submit nav-sprite')]//input[contains(@class,'nav-input')]
+initialising the properties files....
+Opened the browser :- chrome
+Navigated to url :- https://www.amazon.in
+Selected the item :-Books by using the locator :searchDropdownBox
+Entered the text value :- Harry Potter by using the locator :- twotabsearchtextbox
+Clicked on element by using the locator :- //div[contains(@class,'nav-search-submit nav-sprite')]//input[contains(@class,'nav-input')]
