@@ -1,10 +1,15 @@
 package com.project;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Date;
 import java.util.Properties;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,9 +18,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
+import org.openqa.selenium.io.FileHandler;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 
 public class BaseTest 
 {
@@ -24,6 +31,7 @@ public class BaseTest
 	public static Properties or;
 	static FileInputStream fis=null;
 	public static String projectPath=System.getProperty("user.dir");
+	public static String screenshotFileName=null;
 	
 	 public static ExtentReports report = ExtentManager.getInstance();
 	 public static ExtentTest test;
@@ -132,9 +140,47 @@ public class BaseTest
 			element=driver.findElement(By.partialLinkText(or.getProperty(locatorKey)));
 		}
 		
-		
 		return element;
+	}
+	
+	
+	public static boolean verifyElement(String expectedLink) 
+	{
+		String actualLink = driver.findElement(By.linkText("AmazonBasics")).getText();
+		if(actualLink.equals(expectedLink))
+			return true;
+		else
+			return false;
 		
 	}
+	
+	
+	public static void reportSuccess(String successMessage) 
+	{
+		test.log(LogStatus.PASS, successMessage);
+	}
+
+	public static void reportFailure(String failureMessage) 
+	{
+		test.log(LogStatus.FAIL, failureMessage);
+		takeScreenShot();
+	}
+	
+	public static void takeScreenShot() 
+	{
+		Date dt=new Date();
+		screenshotFileName = dt.toString().replace(":", "_").replace(" ", "_")+".png";
+		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		try 
+		{
+			FileHandler.copy(scrFile, new File(projectPath+"//failure//"+screenshotFileName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		//put screen shot file in extent reports
+		test.log(LogStatus.INFO, "Screenshot --> "+ test.addScreenCapture(projectPath+"//failure//"+screenshotFileName));
+	}
+	
 
 }
